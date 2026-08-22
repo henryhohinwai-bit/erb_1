@@ -1,26 +1,32 @@
-import pandas as pd
+import csv
 
-df = pd.read_csv("chefs_raw.csv")
+seen_emails = set()
 
-print("ORIGINAL DATA")
-print(df)
 
-# Standardize names
-df["name"] = df["name"].str.title()
+output_file = open("chefs_clean.csv", "w", newline="")
+writer = csv.writer(output_file)
 
-# Standardize emails
-df["email"] = df["email"].str.lower()
+writer.writerow(["name", "email"])
 
-# Remove duplicated rows
-df = df.drop_duplicates()
+with open("chefs_raw.csv", "r") as file:
+    reader = csv.reader(file)
 
-print("\nCLEANED DATA")
-print(df)
+    for row in reader:
+        if row[0] == "name":
+            continue
 
-# Save cleaned file
-df.to_csv(
-    "chefs_clean.csv",
-    index=False
-)
+        clean_name = row[0].strip().title()
+        clean_email = row[1].strip().lower()
 
-print("\nCleaning completed")
+        if clean_email in seen_emails:
+            continue
+
+        seen_emails.add(clean_email)
+
+        writer.writerow([clean_name, clean_email])
+
+        print(clean_name, clean_email)
+
+output_file.close()
+
+print("chefs_clean.csv created")

@@ -9,26 +9,24 @@ os.environ.setdefault(
 
 django.setup()
 
-from restaurant_1.models import Chef
-
-
+from restaurant_1.models import Restaurant
 
 output_file = open(
-    "chefs_export.csv",
+    "restaurants_export.csv",
     "w",
     newline=""
 )
 
 writer = csv.writer(output_file)
 
-writer.writerow(["name", "email"])
+writer.writerow(["name", "address"])
 
-for chef in Chef.objects.all():
+for restaurant in Restaurant.objects.all():
     writer.writerow([
-        chef.name,
-        chef.email
+        restaurant.name,
+        restaurant.address
     ])
 
 output_file.close()
 
-print("chefs_export.csv created")
+print("restaurants_export.csv created")

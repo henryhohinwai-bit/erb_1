@@ -11,7 +11,7 @@ django.setup()
 
 from restaurant_1.models import Chef
 
-with open("new_chefs.csv") as file:
+with open("chefs_clean.csv") as file:
 
     reader = csv.DictReader(file)
 
